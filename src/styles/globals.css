@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--background: #fffff3;
+	--foreground: #18241c;
+	--primary: #22392a;
+	--primary-foreground: #fffff3;
+	--secondary: #292b35;
+	--secondary-foreground: #292b35ff;
+	--destructive: #ef4444;
+	--destructive-foreground: #ffffff;
+	--accent: #28a066;
+	--accent-alpha: #28a06633;
+	--accent-foreground: #28a066;
+}
+
+body {
+	color: var(--foreground);
+	background: var(--background);
+	font-family: Arial, Helvetica, sans-serif;
+}
