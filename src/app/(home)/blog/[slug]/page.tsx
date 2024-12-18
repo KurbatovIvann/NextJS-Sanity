@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 	const posts = await sanityFetch<Post[]>({ query: POSTS_QUERY });
 
 	return posts.map((post) => ({
-		slug: String(post?.slug?.current)
+		slug: post?.slug?.current
 	}));
 }
 
