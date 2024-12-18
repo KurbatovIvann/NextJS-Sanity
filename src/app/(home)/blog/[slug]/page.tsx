@@ -37,7 +37,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 			</div>
 			<h1 className="mb-4 self-center text-xl font-bold">{post.title}</h1>
 			<div className="relative h-[440px] w-full">
-				<Image src={postImageSrc} alt={post.mainImage?.alt ?? ""} objectFit="cover" fill priority />
+				<Image
+					src={postImageSrc}
+					alt={post.mainImage?.alt ?? ""}
+					style={{ objectFit: "cover" }}
+					fill
+					priority
+				/>
 			</div>
 			{post.body && (
 				<div className="my-2">
