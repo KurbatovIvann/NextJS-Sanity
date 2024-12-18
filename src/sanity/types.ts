@@ -98,9 +98,47 @@ export type Post = {
 		alt?: string;
 		_type: "image";
 	};
-	categories?: Array;
+	categories?: Array<{
+		_ref: string;
+		_type: "reference";
+		_weak?: boolean;
+		_key: string;
+		[internalGroqTypeReferenceTo]?: "category";
+	}>;
 	publishedAt?: string;
-	body?: Array;
+	body?: Array<
+		| {
+				children?: Array<{
+					marks?: Array<string>;
+					text?: string;
+					_type: "span";
+					_key: string;
+				}>;
+				style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+				listItem?: "bullet";
+				markDefs?: Array<{
+					href?: string;
+					_type: "link";
+					_key: string;
+				}>;
+				level?: number;
+				_type: "block";
+				_key: string;
+		  }
+		| {
+				asset?: {
+					_ref: string;
+					_type: "reference";
+					_weak?: boolean;
+					[internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+				};
+				hotspot?: SanityImageHotspot;
+				crop?: SanityImageCrop;
+				alt?: string;
+				_type: "image";
+				_key: string;
+		  }
+	>;
 };
 
 export type Author = {
@@ -123,7 +161,24 @@ export type Author = {
 		alt?: string;
 		_type: "image";
 	};
-	bio?: Array;
+	bio?: Array<{
+		children?: Array<{
+			marks?: Array<string>;
+			text?: string;
+			_type: "span";
+			_key: string;
+		}>;
+		style?: "normal";
+		listItem?: never;
+		markDefs?: Array<{
+			href?: string;
+			_type: "link";
+			_key: string;
+		}>;
+		level?: number;
+		_type: "block";
+		_key: string;
+	}>;
 };
 
 export type Category = {
@@ -143,7 +198,39 @@ export type Slug = {
 	source?: string;
 };
 
-export type BlockContent = Array;
+export type BlockContent = Array<
+	| {
+			children?: Array<{
+				marks?: Array<string>;
+				text?: string;
+				_type: "span";
+				_key: string;
+			}>;
+			style?: "normal" | "h1" | "h2" | "h3" | "h4" | "blockquote";
+			listItem?: "bullet";
+			markDefs?: Array<{
+				href?: string;
+				_type: "link";
+				_key: string;
+			}>;
+			level?: number;
+			_type: "block";
+			_key: string;
+	  }
+	| {
+			asset?: {
+				_ref: string;
+				_type: "reference";
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+			};
+			hotspot?: SanityImageHotspot;
+			crop?: SanityImageCrop;
+			alt?: string;
+			_type: "image";
+			_key: string;
+	  }
+>;
 
 export type SanityImageCrop = {
 	_type: "sanity.imageCrop";
@@ -222,17 +309,43 @@ export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries/posts.ts
 // Variable: POSTS_QUERY
 // Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc)[0...12]{_id, title, body, slug, readTimeEstimate, author->, mainImage, categories->, publishedAt}
-export type POSTS_QUERYResult = Array;
-// Variable: POSTS_SEARCH_QUERY
-// Query: *[_type == "post" && defined(slug.current)][title match $searchQuery + "*" || pt::text(body) match $searchQuery + "*"] | order(publishedAt desc)[0...12]{_id, title, body, slug, readTimeEstimate, author->, mainImage, categories->, publishedAt}
-export type POSTS_SEARCH_QUERYResult = Array;
-// Variable: POST_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0]{_id, title, slug, body, readTimeEstimate, author->, mainImage, categories->, publishedAt}
-export type POST_QUERYResult = {
+export type POSTS_QUERYResult = Array<{
 	_id: string;
 	title: string | null;
+	body: Array<
+		| {
+				children?: Array<{
+					marks?: Array<string>;
+					text?: string;
+					_type: "span";
+					_key: string;
+				}>;
+				style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+				listItem?: "bullet";
+				markDefs?: Array<{
+					href?: string;
+					_type: "link";
+					_key: string;
+				}>;
+				level?: number;
+				_type: "block";
+				_key: string;
+		  }
+		| {
+				asset?: {
+					_ref: string;
+					_type: "reference";
+					_weak?: boolean;
+					[internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+				};
+				hotspot?: SanityImageHotspot;
+				crop?: SanityImageCrop;
+				alt?: string;
+				_type: "image";
+				_key: string;
+		  }
+	> | null;
 	slug: Slug | null;
-	body: Array | null;
 	readTimeEstimate: string | null;
 	author: {
 		_id: string;
@@ -254,7 +367,24 @@ export type POST_QUERYResult = {
 			alt?: string;
 			_type: "image";
 		};
-		bio?: Array;
+		bio?: Array<{
+			children?: Array<{
+				marks?: Array<string>;
+				text?: string;
+				_type: "span";
+				_key: string;
+			}>;
+			style?: "normal";
+			listItem?: never;
+			markDefs?: Array<{
+				href?: string;
+				_type: "link";
+				_key: string;
+			}>;
+			level?: number;
+			_type: "block";
+			_key: string;
+		}>;
 	} | null;
 	mainImage: {
 		asset?: {
@@ -268,7 +398,222 @@ export type POST_QUERYResult = {
 		alt?: string;
 		_type: "image";
 	} | null;
-	categories: Array | null;
+	categories: Array<{
+		_id: string;
+		_type: "category";
+		_createdAt: string;
+		_updatedAt: string;
+		_rev: string;
+		title?: string;
+		slug?: Slug;
+		description?: string;
+	}> | null;
+	publishedAt: string | null;
+}>;
+// Variable: POSTS_SEARCH_QUERY
+// Query: *[_type == "post" && defined(slug.current)][title match $searchQuery + "*" || pt::text(body) match $searchQuery + "*"] | order(publishedAt desc)[0...12]{_id, title, body, slug, readTimeEstimate, author->, mainImage, categories->, publishedAt}
+export type POSTS_SEARCH_QUERYResult = Array<{
+	_id: string;
+	title: string | null;
+	body: Array<
+		| {
+				children?: Array<{
+					marks?: Array<string>;
+					text?: string;
+					_type: "span";
+					_key: string;
+				}>;
+				style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+				listItem?: "bullet";
+				markDefs?: Array<{
+					href?: string;
+					_type: "link";
+					_key: string;
+				}>;
+				level?: number;
+				_type: "block";
+				_key: string;
+		  }
+		| {
+				asset?: {
+					_ref: string;
+					_type: "reference";
+					_weak?: boolean;
+					[internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+				};
+				hotspot?: SanityImageHotspot;
+				crop?: SanityImageCrop;
+				alt?: string;
+				_type: "image";
+				_key: string;
+		  }
+	> | null;
+	slug: Slug | null;
+	readTimeEstimate: string | null;
+	author: {
+		_id: string;
+		_type: "author";
+		_createdAt: string;
+		_updatedAt: string;
+		_rev: string;
+		name?: string;
+		slug?: Slug;
+		image?: {
+			asset?: {
+				_ref: string;
+				_type: "reference";
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+			};
+			hotspot?: SanityImageHotspot;
+			crop?: SanityImageCrop;
+			alt?: string;
+			_type: "image";
+		};
+		bio?: Array<{
+			children?: Array<{
+				marks?: Array<string>;
+				text?: string;
+				_type: "span";
+				_key: string;
+			}>;
+			style?: "normal";
+			listItem?: never;
+			markDefs?: Array<{
+				href?: string;
+				_type: "link";
+				_key: string;
+			}>;
+			level?: number;
+			_type: "block";
+			_key: string;
+		}>;
+	} | null;
+	mainImage: {
+		asset?: {
+			_ref: string;
+			_type: "reference";
+			_weak?: boolean;
+			[internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+		};
+		hotspot?: SanityImageHotspot;
+		crop?: SanityImageCrop;
+		alt?: string;
+		_type: "image";
+	} | null;
+	categories: Array<{
+		_id: string;
+		_type: "category";
+		_createdAt: string;
+		_updatedAt: string;
+		_rev: string;
+		title?: string;
+		slug?: Slug;
+		description?: string;
+	}> | null;
+	publishedAt: string | null;
+}>;
+// Variable: POST_QUERY
+// Query: *[_type == "post" && slug.current == $slug][0]{_id, title, slug, body, readTimeEstimate, author->, mainImage, categories->, publishedAt}
+export type POST_QUERYResult = {
+	_id: string;
+	title: string | null;
+	slug: Slug | null;
+	body: Array<
+		| {
+				children?: Array<{
+					marks?: Array<string>;
+					text?: string;
+					_type: "span";
+					_key: string;
+				}>;
+				style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "normal";
+				listItem?: "bullet";
+				markDefs?: Array<{
+					href?: string;
+					_type: "link";
+					_key: string;
+				}>;
+				level?: number;
+				_type: "block";
+				_key: string;
+		  }
+		| {
+				asset?: {
+					_ref: string;
+					_type: "reference";
+					_weak?: boolean;
+					[internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+				};
+				hotspot?: SanityImageHotspot;
+				crop?: SanityImageCrop;
+				alt?: string;
+				_type: "image";
+				_key: string;
+		  }
+	> | null;
+	readTimeEstimate: string | null;
+	author: {
+		_id: string;
+		_type: "author";
+		_createdAt: string;
+		_updatedAt: string;
+		_rev: string;
+		name?: string;
+		slug?: Slug;
+		image?: {
+			asset?: {
+				_ref: string;
+				_type: "reference";
+				_weak?: boolean;
+				[internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+			};
+			hotspot?: SanityImageHotspot;
+			crop?: SanityImageCrop;
+			alt?: string;
+			_type: "image";
+		};
+		bio?: Array<{
+			children?: Array<{
+				marks?: Array<string>;
+				text?: string;
+				_type: "span";
+				_key: string;
+			}>;
+			style?: "normal";
+			listItem?: never;
+			markDefs?: Array<{
+				href?: string;
+				_type: "link";
+				_key: string;
+			}>;
+			level?: number;
+			_type: "block";
+			_key: string;
+		}>;
+	} | null;
+	mainImage: {
+		asset?: {
+			_ref: string;
+			_type: "reference";
+			_weak?: boolean;
+			[internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+		};
+		hotspot?: SanityImageHotspot;
+		crop?: SanityImageCrop;
+		alt?: string;
+		_type: "image";
+	} | null;
+	categories: Array<{
+		_id: string;
+		_type: "category";
+		_createdAt: string;
+		_updatedAt: string;
+		_rev: string;
+		title?: string;
+		slug?: Slug;
+		description?: string;
+	}> | null;
 	publishedAt: string | null;
 } | null;
 
