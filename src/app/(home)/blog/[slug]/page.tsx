@@ -22,7 +22,7 @@ export async function generateStaticParams() {
 	}));
 }
 
-export default async function Page({ params }: { params: Promise }) {
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
 	const slug = (await params).slug;
 	const post = await sanityFetch<POST_QUERYResult>({ query: POST_QUERY, params: { slug } });
 
