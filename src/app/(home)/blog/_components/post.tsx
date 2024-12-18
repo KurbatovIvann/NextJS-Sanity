@@ -20,7 +20,7 @@ export const PostComponent = ({ post }: PostProps) => {
 					<Image
 						src={postImageSrc}
 						alt={post?.mainImage?.alt ?? "Image alt text"}
-						objectFit="cover"
+						style={{ objectFit: "cover" }}
 						fill
 						priority
 					/>

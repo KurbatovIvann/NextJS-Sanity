@@ -18,7 +18,7 @@ export const AuthorCard = ({ author }: AuthorCardProps) => {
 					src={authorImageSrc}
 					alt={author?.image?.alt ?? "Image alt text"}
 					fill
-					objectFit="cover"
+					style={{ objectFit: "cover" }}
 				/>
 			</div>
 			<div className="flex flex-col">
